@@ -17,7 +17,7 @@ router.post("/login", authController.loginUser);
 router.post(
   "/logout",
   middlewareController.verifyToken,
-  authController.logoutUser
+  authController.logoutUser,
 );
 
 router.post("/forgotPassword", authController.forgotPassword); // forgot password

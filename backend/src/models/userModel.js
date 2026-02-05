@@ -23,11 +23,10 @@ const userSchema = new mongoose.Schema(
     phone: { type: String, trim: true },
     address: { type: String, trim: true },
     city: { type: String, trim: true },
-    avatar: { type: String, trim: true },
     resetOtp: { type: String },
     resetOtpExpires: { type: Date },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("User", userSchema);

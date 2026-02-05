@@ -73,7 +73,7 @@ export const authController = {
         role: user.role,
       },
       process.env.MY_ACCESS_KEY,
-      { expiresIn: "300d" }
+      { expiresIn: "300d" },
     );
   },
   generateRefreshToken: (user) => {
@@ -83,7 +83,7 @@ export const authController = {
         role: user.role,
       },
       process.env.MY_REFRESH_ACCESS_KEY,
-      { expiresIn: "365d" }
+      { expiresIn: "365d" },
     );
   },
 
@@ -100,7 +100,7 @@ export const authController = {
       }
       const validPassword = await bcrypt.compare(
         req.body.password,
-        user.password
+        user.password,
       );
       if (!validPassword) {
         return res
@@ -116,7 +116,7 @@ export const authController = {
           `refreshToken:${user._id}`,
           refreshToken,
           "EX",
-          EXPIRY_SECONDS
+          EXPIRY_SECONDS,
         );
 
         res.cookie("refreshToken", refreshToken, {
@@ -130,7 +130,11 @@ export const authController = {
         const { password, ...other } = user._doc;
         res
           .status(200)
-          .json({ success: true, data: { ...other, accessToken } });
+          .json({
+            success: true,
+            data: { ...other, accessToken },
+            message: "Login successfully",
+          });
       }
     } catch (error) {
       res.status(500).json(error);
@@ -139,7 +143,11 @@ export const authController = {
 
   requestRefreshToken: async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.status(401).json("You're not authenticated");
+    if (!refreshToken)
+      return res
+        .status(401)
+        .json({ success: false, message: "You're not authenticated" });
+
     jwt.verify(
       refreshToken,
       process.env.MY_REFRESH_ACCESS_KEY,
@@ -164,7 +172,7 @@ export const authController = {
           `refreshToken:${user.id}`,
           newRefreshToken,
           "EX",
-          EXPIRY_SECONDS
+          EXPIRY_SECONDS,
         );
 
         res.cookie("refreshToken", newRefreshToken, {
@@ -176,7 +184,7 @@ export const authController = {
           // sameSite: "None",
         });
         res.status(200).json({ accessToken: newAccessToken });
-      }
+      },
     );
   },
 
@@ -196,12 +204,12 @@ export const authController = {
     try {
       const decoded = jwt.verify(
         refreshToken,
-        process.env.MY_REFRESH_ACCESS_KEY
+        process.env.MY_REFRESH_ACCESS_KEY,
       );
       const userId = decoded.id;
       await redisClient.del(`refreshToken:${userId}`);
 
-      res.status(200).json("Logged out !");
+      res.status(200).json("Logged out!");
     } catch (err) {
       res.clearCookie("refreshToken");
       if (err.name === "TokenExpiredError") {
@@ -217,7 +225,7 @@ export const authController = {
       if (!user) {
         res
           .status(404)
-          .json({ success: false, message: "Username không tồn tại" });
+          .json({ success: false, message: "Username do not exist" });
       }
 
       // create OTP
