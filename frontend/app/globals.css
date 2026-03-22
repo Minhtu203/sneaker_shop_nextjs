@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary-color: var(--primary-color);
+  --color-seconary-color: var(--secondary-color);
+  --color-light: var(--light);
+  --color-gray: var(--gray);
+}
+
+@plugin "tailwindcss-animate";
+
+@layer base {
+  :root {
+    --background: #f3f2f8;
+    --foreground: #171717;
+    --primary-color: #183362;
+    --secondary-color: #f1b846;
+    --light: #e4e5e9;
+    --gray: #707072;
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --foreground: #f3f2f8;
+  }
+
+  html, body, * {
+    cursor: none !important;
+  }
+
+  a, button, [role="button"] {
+    cursor: none !important;
+  }
+}
+
+body {
+  /* background-color: var(--background);
+  color: var(--foreground); */
+  color: var(--light);
+}
+

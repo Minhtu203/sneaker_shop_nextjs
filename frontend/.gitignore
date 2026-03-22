@@ -1,0 +1,8 @@
+# Chặn node_modules và build của frontend
+node_modules
+.next
+.env
+
+# Chặn file rác hệ thống
+.DS_Store
+Thumbs.db
