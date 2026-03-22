@@ -14,7 +14,7 @@ router.get(
 //get shoes by id
 router.post(
   "/getShoesById",
-  middlewareController.verifyToken,
+  // middlewareController.verifyToken,
   shoesController.getShoesById,
 );
 
@@ -69,7 +69,7 @@ router.get(
 // get is featured shoes
 router.get(
   "/getIsFeaturedShoes",
-  middlewareController.verifyToken,
+  // middlewareController.verifyToken,
   shoesController.getIsFeaturedShoes,
 );
 
