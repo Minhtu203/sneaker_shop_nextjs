@@ -25,8 +25,6 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const res = await getIsFeaturedShoes();
-        // const res1 = await getIsFeaturedShoes();
-        // console.log(3333, res1);
 
         setAllShoes(res.data);
       } catch (error) {
@@ -35,8 +33,6 @@ export default function Home() {
     };
     fetchData();
   }, [userInfo]);
-
-  // console.log(55555, allShoes);
 
   return (
     <div className="flex flex-col px-18 py-8">

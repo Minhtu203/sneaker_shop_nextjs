@@ -7,6 +7,9 @@ import React, { useEffect, useState } from 'react';
 import { getAllShoes } from '../(main)/action';
 import { IShoe } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
+import { formatVND } from '@/lib/utils';
+import { Button } from '@/components/ui/Button';
+import { ArrowDownUp } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { userInfo, setUserInfo } = useUserState();
@@ -32,26 +35,61 @@ export default function AdminDashboard() {
   const columns: ColumnDef<IShoe>[] = [
     {
       accessorKey: 'name',
-      header: 'Name',
+      // header: 'Name',
+      header: ({ column }) => {
+        return (
+          <Button onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="-ml-4">
+            Name
+            <ArrowDownUp />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: 'brand',
-      header: 'Brand',
+      // header: 'Brand',
+      header: ({ column }) => {
+        return (
+          <Button onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="-ml-4">
+            Brand
+            <ArrowDownUp />
+          </Button>
+        );
+      },
     },
     {
       accessorKey: 'price',
-      header: 'Price',
+      // header: 'Price',
+      header: ({ column }) => {
+        return (
+          <Button onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="-ml-4">
+            Price
+            <ArrowDownUp />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue('price'));
+        return <div className="">{formatVND(amount)}</div>;
+      },
     },
     {
       accessorKey: 'isFeatured',
-      header: 'Is Featured',
+      // header: 'Is Featured',
+      header: ({ column }) => {
+        return (
+          <Button onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="-ml-4">
+            Is Featured
+            <ArrowDownUp />
+          </Button>
+        );
+      },
     },
   ];
 
   return (
-    <div>
-      Admin page
-      {/* <DataTable columns={columns} data={allShoes} /> */}
+    <div className="w-full p-10 ">
+      <DataTable columns={columns} data={allShoes} />
     </div>
   );
 }

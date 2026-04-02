@@ -12,6 +12,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 connectDB();
 
@@ -19,7 +20,7 @@ app.use(
   cors({
     origin: CLIENT,
     credentials: true,
-  })
+  }),
 );
 app.use(cookieParser());
 
@@ -46,6 +47,6 @@ app.use("/api/favourite", favouritesRoutes);
 app.use("/api/order", orderRoutes);
 
 app.listen(PORT, () =>
-  console.log(`Server is running on http://localhost:${PORT}`)
+  console.log(`Server is running on http://localhost:${PORT}`),
 );
 // export default app;

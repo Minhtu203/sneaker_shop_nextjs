@@ -1,22 +1,13 @@
-// 'use server';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { postData } from '@/lib/axios';
-import { useUserState } from '@/store/userState';
+import { axiosInstance, postData } from '@/lib/axios';
 import { AxiosInstance } from 'axios';
 
 // LOG IN
-interface LoginPayload {
-  username: string;
-  password: string;
-}
-
-export async function LoginAction(data: LoginPayload) {
+export async function LoginAction(data: { username: string; password: string }) {
   try {
     const res = await postData('/api/auth/login', data);
-    // console.log(222, res.data.data.data);
-
     return res;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return error;
   }
@@ -35,11 +26,8 @@ export async function LogoutAction({
   try {
     const res = await axiosJWT.post('/api/auth/logout', { userId }, { headers: { token: `Bearer ${accessToken}` } });
     return { success: true, message: 'Logged out', res };
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return {
-      asdf: 'asdfasdf',
       success: false,
       message: error.message || 'Something went wrong!',
     };
@@ -47,5 +35,21 @@ export async function LogoutAction({
 }
 
 // REGISTER
+export async function RegisterAction(data: { username: string; password: string; email: string }) {
+  try {
+    const res = await axiosInstance.post('/api/auth/register', data);
+    return res.data;
+  } catch (error: any) {
+    throw error?.response?.message || 'Register account failed.';
+  }
+}
 
 // FORGOT PASSWORD
+export async function ForgottenPasswordAction(username: string) {
+  try {
+    const res = await axiosInstance.post('/api/auth/forgotPassword', username);
+    return res.data;
+  } catch (error: any) {
+    throw error.response?.message || 'Something failed with function forgot password.';
+  }
+}

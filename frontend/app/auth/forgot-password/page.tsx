@@ -6,15 +6,15 @@ import { Textz } from '../login/page';
 import { ChevronLeft } from 'lucide-react';
 import { InputField } from '@/components/ui/Inputz';
 import { Button } from '@/components/ui/Button';
+import { ForgottenPasswordAction } from '../actions';
 
 export default function ForgottenPassword() {
   const [username, setUsername] = useState('');
 
-  const data = { username };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(2222, data);
+    const res = await ForgottenPasswordAction(String(username));
+    console.log(res);
   };
 
   return (
