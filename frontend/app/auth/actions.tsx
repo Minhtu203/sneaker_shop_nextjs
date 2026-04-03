@@ -47,9 +47,27 @@ export async function RegisterAction(data: { username: string; password: string;
 // FORGOT PASSWORD
 export async function ForgottenPasswordAction(username: string) {
   try {
-    const res = await axiosInstance.post('/api/auth/forgotPassword', username);
+    const res = await axiosInstance.post('/api/auth/forgotPassword', { username: username });
     return res.data;
   } catch (error: any) {
     throw error.response?.message || 'Something failed with function forgot password.';
+  }
+}
+
+// RESET PASSWORD
+export async function ResetPasswordAction({
+  username,
+  otp,
+  newPassword,
+}: {
+  username: string;
+  otp: string;
+  newPassword: string;
+}) {
+  try {
+    const res = await axiosInstance.post('/api/auth/resetPassword', { username, otp, newPassword });
+    return res.data;
+  } catch (error: any) {
+    throw error.response?.message || 'Reset password failed.';
   }
 }

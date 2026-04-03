@@ -128,13 +128,11 @@ export const authController = {
           // sameSite: "None",
         });
         const { password, ...other } = user._doc;
-        res
-          .status(200)
-          .json({
-            success: true,
-            data: { ...other, accessToken },
-            message: "Login successfully",
-          });
+        res.status(200).json({
+          success: true,
+          data: { ...other, accessToken },
+          message: "Login successfully",
+        });
       }
     } catch (error) {
       res.status(500).json(error);
@@ -245,6 +243,7 @@ export const authController = {
       res.status(200).json({
         success: true,
         message: `OTP đã được gửi vào email ${user.email}`,
+        email: user.email,
       });
     } catch (error) {
       return res
@@ -266,12 +265,18 @@ export const authController = {
       if (user.resetOtp !== otp)
         return res
           .status(404)
-          .json({ success: false, message: "OTP không hợp lệ" });
+          .json({ success: false, message: "Invalid OTP." });
+
+      if (newPassword.length < 8 || newPassword.length > 16)
+        return res.status(404).json({
+          success: false,
+          message: "Passwords must be between 8 and 16 characters long.",
+        });
 
       if (Date.now() > user.resetOtpExpires)
         return res
           .status(404)
-          .json({ success: false, message: "OTP đã hết hạn" });
+          .json({ success: false, message: "The OTP has expired." });
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
@@ -281,7 +286,7 @@ export const authController = {
       user.resetOtpExpires = undefined;
       await user.save();
 
-      res.json({ success: true, message: "Đặt lại mật khẩu thành công" });
+      res.json({ success: true, message: "Reset password successfully." });
     } catch (error) {
       res
         .status(500)

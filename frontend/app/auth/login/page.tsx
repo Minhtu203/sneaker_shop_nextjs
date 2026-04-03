@@ -3,7 +3,7 @@
 import { Linkz } from '@/components/layout/Header';
 import { Button } from '@/components/ui/Button';
 import { InputField } from '@/components/ui/Inputz';
-import { ChevronLeft, ShieldQuestionMark, UserPlus } from 'lucide-react';
+import { ChevronLeft, ShieldQuestionMark, UserPlus, Footprints, LoaderCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { LoginAction } from '../actions';
 import { useRouter } from 'next/navigation';
@@ -16,28 +16,34 @@ function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [togglePassword, setTogglePassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setUserInfo } = useUserState();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const payload = { username, password };
-    const res = await LoginAction(payload);
+    try {
+      setIsLoading(true);
+      const payload = { username, password };
+      const res = await LoginAction(payload);
 
-    if (res.data.success === true) {
-      // console.log(11111, res.data?.data);
+      if (res.data.success === true) {
+        // console.log(11111, res.data?.data);
 
-      if (res.data?.data?.role === 'user') {
-        setUserInfo(res.data?.data);
-        router.push('/');
-        toast.success(res.data.message);
-      } else if (res.data?.data?.role === 'admin') {
-        setUserInfo(res.data?.data);
-        router.push('/admin');
-        toast.success(res.data.message);
+        if (res.data?.data?.role === 'user') {
+          setUserInfo(res.data?.data);
+          router.push('/');
+          toast.success(res.data.message);
+        } else if (res.data?.data?.role === 'admin') {
+          setUserInfo(res.data?.data);
+          router.push('/admin');
+          toast.success(res.data.message);
+        }
+      } else {
+        setIsLoading(false);
+        toast.error(res.data.message);
       }
-    } else {
-      toast.error(res.data.message);
+    } finally {
     }
   };
 
@@ -53,6 +59,10 @@ function LoginPage() {
               <ChevronLeft size={20} /> Dashboard
             </Textz>
           </Linkz>
+        </div>
+
+        <div className="w-full flex justify-center items-center">
+          <header className="text-(--primary-color) text-4xl flex flex-row font-bold tracking-widest">Login</header>
         </div>
 
         {/* input */}
@@ -85,7 +95,14 @@ function LoginPage() {
 
         {/* submit btn */}
         <Button type="submit" className="bg-(--primary-color) h-12">
-          Log in
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              Please wait...
+              <LoaderCircle className="animate-spin" />
+            </span>
+          ) : (
+            'Log in'
+          )}
         </Button>
       </form>
     </div>

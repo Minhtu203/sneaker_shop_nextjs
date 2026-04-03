@@ -2,7 +2,7 @@
 'use client';
 
 import { useUserState } from '@/store/userState';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { deleteProductFromCart, getProductInCart } from '../../action';
 import { createAxios } from '@/lib/axios';
@@ -12,6 +12,7 @@ import { formatVND } from '@/lib/utils';
 import { ICart } from '@/types/cart';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { IShoe } from '@/types';
 
 export default function Cart() {
   // rename tab
@@ -26,6 +27,7 @@ export default function Cart() {
   const axiosJWT = createAxios(userInfo, setUserInfo);
   const { cartItems, setCartItems, removeLocal } = useCartStore();
 
+  // get all items from cart
   useEffect(() => {
     const fetchData = async () => {
       if (userInfo) {
@@ -56,7 +58,6 @@ export default function Cart() {
 
   return (
     <div className="flex flex-col gap-4 px-12 py-4">
-      {/* animation cart page */}
       <AnimatePresence mode="popLayout">
         {cartItems?.map((item, index) => {
           const uniqueKey = ` ${item?.productId?._id}-${item?.size}`;
@@ -96,7 +97,7 @@ type CardCartProps = {
   className?: string;
   data: ICart;
   handleRemoveItem: () => void;
-  // setCheckout?: Dispatch<SetStateAction<IShoe[]>>;
+  setCheckout?: Dispatch<SetStateAction<IShoe[]>>;
 };
 const CardCart = ({ className, data, handleRemoveItem, setCheckout }: CardCartProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -112,11 +113,6 @@ const CardCart = ({ className, data, handleRemoveItem, setCheckout }: CardCartPr
     <div
       className={`${className} md:h-42 w-full bg-white rounded-2xl grid grid-cols-9 items-center px-4 py-4 md:py-2 gap-4 transition-all duration-300 ease-in-out 
       `}
-      // ${
-      //   isDeleting
-      //     ? 'opacity-0 -translate-x-full scale-95 h-0 mb-0 overflow-hidden'
-      //     : 'opacity-100 translate-x-0 h-auto mb-4'
-      // }
     >
       <Link href={`/shop/products/${data?.productId?._id ? data?.productId?._id : data?.productId}`}>
         <Image
