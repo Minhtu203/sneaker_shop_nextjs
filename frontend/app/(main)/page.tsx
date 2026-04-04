@@ -5,7 +5,7 @@ import { ButtonV2, ButtonV2OutLine } from '@/components/ui/Button';
 import { createAxios } from '@/lib/axios';
 import { useUserState } from '@/store/userState';
 import dynamic from 'next/dynamic';
-import { getAllShoes, getIsFeaturedShoes, getNikeShoes, getProductInCart } from './action';
+import { getIsFeaturedShoes } from './action';
 import React, { useEffect, useState } from 'react';
 import CardShoes from '@/components/ui/CardShoes';
 import Footer from '@/components/layout/Footer';
