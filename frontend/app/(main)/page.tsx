@@ -9,6 +9,7 @@ import { getIsFeaturedShoes } from './action';
 import React, { useEffect, useState } from 'react';
 import CardShoes from '@/components/ui/CardShoes';
 import Footer from '@/components/layout/Footer';
+import { Star, StarHalfIcon } from 'lucide-react';
 
 const ShoeViewerNoSSR = dynamic(() => import('@/components/ui/ShoesViewer').then((mod) => mod.ShoeViewer), {
   ssr: false,
@@ -47,7 +48,13 @@ export default function Home() {
             Nike Air Max
             <br /> Pre-Day
           </TextV1>
-          <h2 className="text-[1.3rem]">(4.5)</h2>
+          <h2 className="text-[1.3rem] flex flex-row gap-1">
+            <StarCustom />
+            <StarCustom />
+            <StarCustom />
+            <StarCustom />
+            <StarHalf />
+          </h2>
           <h2 className="text-2xl font-bold flex flex-row gap-4">
             $143.99 <span className="text-gray-400 line-through">$163.99</span>
           </h2>
@@ -77,4 +84,12 @@ export default function Home() {
 
 export const TextV1 = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return <h2 className={`${className} font-bold italic text-(--secondary-color)`}>{children}</h2>;
+};
+
+export const StarCustom = () => {
+  return <Star className="fill-amber-400 text-amber-400" />;
+};
+
+export const StarHalf = () => {
+  return <StarHalfIcon className="w-5 h-5 fill-amber-400 text-amber-400" />;
 };

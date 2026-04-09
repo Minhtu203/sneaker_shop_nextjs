@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // types/shoe.ts
 
 export interface IShoe {
+  productId: any;
   category: string;
   brand: string;
   colors: IColor[];

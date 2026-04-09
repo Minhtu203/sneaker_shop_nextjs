@@ -33,7 +33,7 @@ export default function HeaderAdmin() {
   return (
     <header className="px-4 h-20 flex items-center flex-row fixed top-0 left-0 w-full z-1000 bg-(--primary-color) shadow-2xs">
       <div className="w-3/10 h-full flex flex-row items-center pl-16">
-        <Image src={logo} alt="Logo" width={60} height={60} className="object-contain" />
+        <Image src={logo} alt="Logo" width={60} height={60} className="object-contain w-auto h-auto" priority />
       </div>
 
       <div className="w-3/10 flex flex-row items-center justify-end gap-6 h-full pr-12 ml-auto">
@@ -44,8 +44,9 @@ export default function HeaderAdmin() {
               alt="avatar"
               width={40}
               height={40}
-              className="rounded-full"
+              className="rounded-full w-auto h-auto"
               onClick={() => setToggleMenu(!toggleMenu)}
+              priority
             />
           ) : (
             <CircleUserRound

@@ -1,20 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
+import React, { useEffect, useMemo, useState } from 'react';
+
 import { useUserState } from '@/store/userState';
-import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { toast } from 'sonner';
-import { deleteProductFromCart, getProductInCart } from '../../action';
-import { createAxios } from '@/lib/axios';
 import { useCartStore } from '@/store/useCartStore';
-import Image from 'next/image';
-import { formatVND } from '@/lib/utils';
-import { ICart } from '@/types/cart';
-import Link from 'next/link';
+
+import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IShoe } from '@/types';
-import { Button } from '@/components/ui/Button';
+
+import { createAxios } from '@/lib/axios';
+import { formatVND } from '@/lib/utils';
+
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { X } from 'lucide-react';
+
+import { ICart } from '@/types/cart';
+import { Button } from '@/components/ui/Button';
+import { deleteProductFromCart, getProductInCart } from '../../action';
 
 export default function Cart() {
   // rename tab
@@ -65,7 +70,7 @@ export default function Cart() {
     return checkout.reduce((sum, item) => sum + Number(item.price), 0);
   }, [checkout]);
 
-  console.log(2222, checkout);
+  // console.log(2222, checkout);
 
   return (
     <div className="flex flex-row p-4 gap-4">
@@ -92,7 +97,7 @@ export default function Cart() {
               >
                 <CardCart
                   data={item}
-                  key={index}
+                  // key={index}
                   handleRemoveItem={() =>
                     handleRemoveItem({
                       productId: item?.productId?._id,

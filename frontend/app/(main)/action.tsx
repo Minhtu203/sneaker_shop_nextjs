@@ -111,8 +111,6 @@ export const deleteProductFromCart = async ({
   };
 }) => {
   try {
-    console.log(2222, params);
-
     const res = await axiosJWT.post('/api/cart/deleteItem', params, {
       headers: { token: `Bearer ${accessToken}` },
     });
@@ -144,5 +142,45 @@ export const addToFavourite = async ({
     return res?.data;
   } catch (error: any) {
     throw error.response?.data || 'Something wrong!';
+  }
+};
+
+// get items from favourite
+export const getItemsFavourite = async ({
+  axiosJWT,
+  accessToken,
+}: {
+  axiosJWT: AxiosInstance;
+  accessToken: string;
+}) => {
+  try {
+    const res = await axiosJWT.get('/api/favourite/getUserFavourites', {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+    return res.data;
+  } catch (error: any) {
+    throw error?.response?.message || 'Get items favourite failed.';
+  }
+};
+
+// remove items from favourite
+export const UnFavouriteItemAction = async ({
+  axiosJWT,
+  accessToken,
+  productId,
+}: {
+  axiosJWT: AxiosInstance;
+  accessToken: string;
+  productId: string;
+}) => {
+  try {
+    const res = await axiosJWT.post(
+      '/api/favourite/delete',
+      { productId },
+      { headers: { token: `Bearer ${accessToken}` } }
+    );
+    return res.data;
+  } catch (error: any) {
+    throw error?.response?.message || 'Unfavourite product failed.';
   }
 };

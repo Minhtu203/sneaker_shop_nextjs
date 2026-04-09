@@ -35,7 +35,7 @@ export default function Header() {
   return (
     <header className="px-4 h-20 flex items-center flex-row fixed top-0 left-0 w-full z-1000 bg-(--primary-color) shadow-2xs">
       <div className="w-3/10 h-full flex flex-row items-center pl-16">
-        <Image src={logo} alt="Logo" width={60} height={60} className="object-contain" />
+        <Image src={logo} alt="Logo" width={60} height={60} className="object-contain" priority />
       </div>
 
       <div className="flex-1 h-full flex flex-row justify-center gap-8">
@@ -84,11 +84,12 @@ export default function Header() {
         <div className="relative">
           {userInfo?.avatar ? (
             <Image
+              priority
               src={userInfo?.avatar || '/user_image_default.png'}
               alt="avatar"
               width={40}
               height={40}
-              className="rounded-full"
+              className="rounded-full w-full h-auto"
               onClick={() => setToggleMenu(!toggleMenu)}
             />
           ) : (
