@@ -8,14 +8,17 @@ import React, { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import logo from '@/public/logoShoes.png';
 import { CircleUserRound, LogIn, LogOut } from 'lucide-react';
-import { Linkz, TextCustomise } from './Header';
+import { LinkHeader, Linkz, PageName, TextCustomise } from './Header';
 import { useRouter } from 'next/navigation';
+
+// type PageName = '/admin' | '/user-management';
 
 export default function HeaderAdmin() {
   const [toggleMenu, setToggleMenu] = useState(false);
   const { userInfo, setUserInfo, clearUserInfo } = useUserState();
   const axiosJWT = useMemo(() => createAxios(userInfo, setUserInfo), [userInfo, setUserInfo]);
   const router = useRouter();
+  const [page, setPage] = useState<PageName>('/admin');
 
   const handleLogout = async () => {
     try {
@@ -34,6 +37,28 @@ export default function HeaderAdmin() {
     <header className="px-4 h-20 flex items-center flex-row fixed top-0 left-0 w-full z-1000 bg-(--primary-color) shadow-2xs">
       <div className="w-3/10 h-full flex flex-row items-center pl-16">
         <Image src={logo} alt="Logo" width={60} height={60} className="object-contain w-auto h-auto" priority />
+      </div>
+
+      <div className="flex-1 h-full flex flex-row justify-center gap-8">
+        <LinkHeader setToggleMenu={setToggleMenu} value="/admin" setPage={setPage} href="/admin">
+          Dashboard
+        </LinkHeader>
+        <LinkHeader
+          setToggleMenu={setToggleMenu}
+          value="/admin/user-management"
+          setPage={setPage}
+          href="/admin/user-management"
+        >
+          User management
+        </LinkHeader>
+        <LinkHeader
+          setToggleMenu={setToggleMenu}
+          value="/admin/order-management"
+          setPage={setPage}
+          href="/admin/order-management"
+        >
+          Order management
+        </LinkHeader>
       </div>
 
       <div className="w-3/10 flex flex-row items-center justify-end gap-6 h-full pr-12 ml-auto">

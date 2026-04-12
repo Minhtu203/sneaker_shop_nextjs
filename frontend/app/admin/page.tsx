@@ -9,7 +9,7 @@ import { IShoe } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { formatVND } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
-import { ArrowDownUp } from 'lucide-react';
+import { ArrowDownUp, ToggleLeft, ToggleRight } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { userInfo, setUserInfo } = useUserState();
@@ -82,6 +82,23 @@ export default function AdminDashboard() {
             Is Featured
             <ArrowDownUp />
           </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const isFeatured = !!row.getValue('isFeatured');
+
+        const handleToggle = () => {
+          const shoeId = row.original._id;
+        };
+
+        return (
+          <button onClick={() => handleToggle()} className="hover:opacity-80 transition-all flex items-center gap-2">
+            {isFeatured ? (
+              <ToggleRight className="text-(--secondary-color) fill-yellow-500/20" size={32} />
+            ) : (
+              <ToggleLeft className="text-slate-400" size={32} />
+            )}
+          </button>
         );
       },
     },

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
@@ -20,6 +21,7 @@ import { X } from 'lucide-react';
 import { ICart } from '@/types/cart';
 import { Button } from '@/components/ui/Button';
 import { deleteProductFromCart, getProductInCart } from '../../action';
+import { useRouter } from 'next/navigation';
 
 export default function Cart() {
   // rename tab
@@ -35,6 +37,7 @@ export default function Cart() {
   const { cartItems, setCartItems, removeLocal } = useCartStore();
   const [checkout, setCheckout] = useState<ICart[]>([]);
   const [isDeleting, setIsDeleting] = useState(false);
+  const router = useRouter();
 
   // get all items from cart
   useEffect(() => {
@@ -42,10 +45,11 @@ export default function Cart() {
       if (userInfo) {
         const res = await getProductInCart({ axiosJWT, accessToken: userInfo?.accessToken || '' });
         setCartItems(res?.cartItems?.items);
+      } else {
+        router.push('/');
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   //remove item from cart
@@ -65,18 +69,21 @@ export default function Cart() {
     }
   };
 
+  // create order
+  const handleOrder = () => {
+    console.log({ totalAmount: totalPrice, items: checkout });
+  };
+
   // total price checkout
   const totalPrice = useMemo(() => {
     return checkout.reduce((sum, item) => sum + Number(item.price), 0);
   }, [checkout]);
 
-  // console.log(2222, checkout);
-
   return (
     <div className="flex flex-row p-4 gap-4">
       <div className="flex flex-col gap-4 w-2/3">
         <AnimatePresence mode="popLayout">
-          {cartItems?.map((item, index) => {
+          {cartItems?.map((item) => {
             const uniqueKey = `${item?.productId?._id}-${item?.size}`;
             return (
               <motion.div
@@ -117,10 +124,10 @@ export default function Cart() {
 
       {/* check out */}
       <div className="w-1/3 pt-4">
-        <div className="w-full bg-light rounded-2xl p-4 flex flex-col gap-3">
+        <div className="w-full bg-light rounded-2xl p-4 pb-8 flex flex-col gap-3">
           <Textz className="text-3xl font-bold mb-6">Check out</Textz>
           <AnimatePresence mode="popLayout">
-            {checkout?.map((item, index) => {
+            {checkout?.map((item) => {
               const uniqueKey = `${item?.productId?._id}-${item?.size}`;
 
               return (
@@ -147,10 +154,19 @@ export default function Cart() {
           </AnimatePresence>
 
           <div className="w-full flex items-center justify-center my-8">
-            <i className="w-4/5 bg-(--gray) rounded-2xl h-px"></i>
+            <i className="w-4/5 bg-(--gray) rounded-2xl h-[0.5px]"></i>
+          </div>
+          <Textz className="text-xl font-bold">Total: {formatVND(totalPrice)}</Textz>
+          <div className="w-full flex items-center justify-center my-8">
+            <i className="w-4/5 bg-(--gray) rounded-2xl h-[0.5px]"></i>
           </div>
 
-          <Textz className="text-xl font-bold">Total: {formatVND(totalPrice)}</Textz>
+          {/* button checkout */}
+          <div className="w-full flex items-center justify-center">
+            <Button onClick={() => handleOrder()} className="bg-(--primary-color) w-50 h-12">
+              Check out
+            </Button>
+          </div>
         </div>
       </div>
     </div>
@@ -165,7 +181,7 @@ interface CardCartProps {
   setCheckout: React.Dispatch<React.SetStateAction<ICart[]>>;
   isDeleting: boolean;
 }
-const CardCart = ({ className, data, handleRemoveItem, checkout, setCheckout, isDeleting }: CardCartProps) => {
+const CardCart = ({ className, data, handleRemoveItem, setCheckout, isDeleting }: CardCartProps) => {
   return (
     <div
       className={`${className} md:h-42 w-full bg-(--light) rounded-2xl grid grid-cols-7 items-center px-4 py-4 md:py-2 gap-4 transition-all duration-300 ease-in-out`}

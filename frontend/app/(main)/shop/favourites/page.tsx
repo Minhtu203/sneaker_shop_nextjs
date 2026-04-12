@@ -49,9 +49,9 @@ export default function Favourites() {
       });
       setIsLoading(true);
       toast.success(res?.message);
-      console.log(res);
+      // console.log(shoeId);
       if (res.success === true) {
-        router.refresh();
+        setAllItems((prev) => prev.filter((item) => item?.productId?._id !== shoeId));
       }
     } finally {
       setIsLoading(false);

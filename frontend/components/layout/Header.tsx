@@ -151,7 +151,15 @@ export default function Header() {
   );
 }
 
-type PageName = '/' | '/shop/men' | '/shop/women' | '/shop/kids' | '/shop/collections';
+export type PageName =
+  | '/'
+  | '/shop/men'
+  | '/shop/women'
+  | '/shop/kids'
+  | '/shop/collections'
+  | '/admin'
+  | '/admin/user-management'
+  | '/admin/order-management';
 
 interface LinkHeaderProps extends LinkProps {
   children: ReactNode;
