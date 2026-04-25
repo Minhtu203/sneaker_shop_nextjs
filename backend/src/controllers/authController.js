@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-// import redisClient from "../config/redis.js";
+import redisClient from "../config/redis.js";
 
 // let refreshTokens = [];
 
@@ -112,12 +112,12 @@ export const authController = {
         const refreshToken = authController.generateRefreshToken(user);
         // refreshTokens.push(refreshToken);
         const EXPIRY_SECONDS = 365 * 24 * 60 * 60; //365 days
-        // await redisClient.set(
-        //   `refreshToken:${user._id}`,
-        //   refreshToken,
-        //   "EX",
-        //   EXPIRY_SECONDS,
-        // );
+        await redisClient.set(
+          `refreshToken:${user._id}`,
+          refreshToken,
+          "EX",
+          EXPIRY_SECONDS,
+        );
 
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
@@ -154,7 +154,7 @@ export const authController = {
           console.error("Refresh Token Verification Error:", err);
           return res.status(403).json("Refresh Token is not valid or expired.");
         }
-        // const storedToken = await redisClient.get(`refreshToken:${user.id}`);
+        const storedToken = await redisClient.get(`refreshToken:${user.id}`);
         if (!storedToken || storedToken !== refreshToken) {
           return res
             .status(403)
@@ -166,12 +166,12 @@ export const authController = {
         const newRefreshToken = authController.generateRefreshToken(user);
 
         const EXPIRY_SECONDS = 365 * 24 * 60 * 60; // 365 ngày
-        // await redisClient.set(
-        //   `refreshToken:${user.id}`,
-        //   newRefreshToken,
-        //   "EX",
-        //   EXPIRY_SECONDS,
-        // );
+        await redisClient.set(
+          `refreshToken:${user.id}`,
+          newRefreshToken,
+          "EX",
+          EXPIRY_SECONDS,
+        );
 
         res.cookie("refreshToken", newRefreshToken, {
           httpOnly: true,
@@ -205,7 +205,7 @@ export const authController = {
         process.env.MY_REFRESH_ACCESS_KEY,
       );
       const userId = decoded.id;
-      // await redisClient.del(`refreshToken:${userId}`);
+      await redisClient.del(`refreshToken:${userId}`);
 
       res.status(200).json("Logged out!");
     } catch (err) {
