@@ -1,22 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useEffect, useMemo, useRef } from 'react';
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'model-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        src?: string;
-        alt?: string;
-        'auto-rotate'?: boolean | string;
-        'camera-controls'?: boolean | string;
-        'shadow-intensity'?: string;
-        'shadow-softness'?: string;
-        exposure?: string;
-        'environment-image'?: string;
-      };
-    }
-  }
-}
 
 export const ShoeViewer = () => {
   const modelRef = useRef<HTMLElement>(null);
@@ -31,8 +15,6 @@ export const ShoeViewer = () => {
   );
 
   useEffect(() => {
-    import('@google/model-viewer');
-
     const loadModelViewer = async () => {
       await import('@google/model-viewer');
 
@@ -50,20 +32,25 @@ export const ShoeViewer = () => {
     loadModelViewer();
   }, []);
 
+  // Ép kiểu thẻ thành 'any' để bỏ qua kiểm tra thuộc tính
+  const ModelViewerTag = 'model-viewer' as any;
+
   return (
     <div className="w-full h-full bg-none rounded-2xl overflow-hidden" style={{ cursor: 'none' }}>
-      <model-viewer
+      <ModelViewerTag
         ref={modelRef}
         src="/sneaker-3d-model.glb"
         alt="3D Sneaker"
-        auto-rotate
-        camera-controls
+        auto-rotate=""
+        camera-controls=""
         style={modelStyle}
         shadow-intensity="1.5"
         shadow-softness="1"
         exposure="1"
         environment-image="neutral"
-      ></model-viewer>
+      />
     </div>
   );
 };
+
+export default ShoeViewer;

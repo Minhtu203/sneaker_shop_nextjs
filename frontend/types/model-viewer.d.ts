@@ -1,18 +1,18 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-import React from 'react';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      "model-viewer": React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+      'model-viewer': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & {
         src?: string;
         alt?: string;
-        "auto-rotate"?: boolean | string;
-        "camera-controls"?: boolean | string;
-        "shadow-intensity"?: string | number;
-        style?: React.CSSProperties;
+        'auto-rotate'?: string | boolean;
+        'camera-controls'?: string | boolean;
+        'shadow-intensity'?: string;
+        'shadow-softness'?: string;
+        exposure?: string;
+        'environment-image'?: string;
       };
     }
   }
 }
-
