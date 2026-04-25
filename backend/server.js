@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
 import cookieParser from "cookie-parser";
 
-import redisClient from "./src/config/redis.js";
+// import redisClient from "./src/config/redis.js";
 console.log("asdfasdasdf");
 
 const PORT = process.env.PORT;
