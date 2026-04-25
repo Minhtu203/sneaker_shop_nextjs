@@ -10,6 +10,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { formatVND } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { ArrowDownUp, ToggleLeft, ToggleRight } from 'lucide-react';
+import { UpdateIsFeaturedShoes } from './action';
 
 export default function AdminDashboard() {
   const { userInfo, setUserInfo } = useUserState();
@@ -17,13 +18,11 @@ export default function AdminDashboard() {
 
   const [allShoes, setAllShoes] = useState<IShoe[]>([]);
 
+  // api get all shoes
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await getAllShoes();
-        // const res1 = await getIsFeaturedShoes();
-        // console.log(3333, res1);
-
         setAllShoes(res.data);
       } catch (error) {
         console.error(error);
@@ -87,12 +86,24 @@ export default function AdminDashboard() {
       cell: ({ row }) => {
         const isFeatured = !!row.getValue('isFeatured');
 
-        const handleToggle = () => {
+        const handleToggleIsFeatured = async () => {
           const shoeId = row.original._id;
+
+          // api update is featured shoes
+          const res = await UpdateIsFeaturedShoes({
+            axiosJWT,
+            accessToken: userInfo?.accessToken || '',
+            shoeId,
+            isFeatured,
+          });
+          console.log(11111, res);
         };
 
         return (
-          <button onClick={() => handleToggle()} className="hover:opacity-80 transition-all flex items-center gap-2">
+          <button
+            onClick={() => handleToggleIsFeatured()}
+            className="hover:opacity-80 transition-all flex items-center gap-2"
+          >
             {isFeatured ? (
               <ToggleRight className="text-(--secondary-color) fill-yellow-500/20" size={32} />
             ) : (

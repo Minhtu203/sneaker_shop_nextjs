@@ -14,9 +14,13 @@ export const UpdateIsFeaturedShoes = async ({
   isFeatured: boolean;
 }) => {
   try {
-    const res = await axiosJWT.put(`/api/shoes/updateShoes/${shoeId}`, isFeatured, {
-      headers: { token: `Bearer ${accessToken}` },
-    });
+    const res = await axiosJWT.put(
+      `/api/shoes/updateShoes/${shoeId}`,
+      { isFeatured: isFeatured },
+      {
+        headers: { token: `Bearer ${accessToken}` },
+      }
+    );
     return res.data;
   } catch (error: any) {
     throw error?.response?.message || 'Update shoes featured failed.';
