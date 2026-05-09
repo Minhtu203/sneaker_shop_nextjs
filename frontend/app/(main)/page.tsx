@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import CardShoes from '@/components/ui/CardShoes';
 import Footer from '@/components/layout/Footer';
 import { Star, StarHalfIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const ShoeViewerNoSSR = dynamic(() => import('@/components/ui/ShoesViewer').then((mod) => mod.ShoeViewer), {
   ssr: false,
@@ -18,6 +19,12 @@ const ShoeViewerNoSSR = dynamic(() => import('@/components/ui/ShoesViewer').then
 export default function Home() {
   const { userInfo, setUserInfo } = useUserState();
   const axiosJWT = createAxios(userInfo, setUserInfo);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!userInfo?.accessToken) router.push('/');
+    else if (userInfo?.role === 'admin') router.push('/admin');
+  }, [userInfo, router]);
 
   //all shoes
   const [allShoes, setAllShoes] = useState([]);

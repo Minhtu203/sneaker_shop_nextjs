@@ -11,9 +11,10 @@ import React from 'react';
 interface DataTableProps<TData, TValue> {
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
+  filterKey: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, filterKey }: DataTableProps<TData, TValue>) {
   // console.log(11111, data);
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -40,7 +41,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
       <div className="flex items-center py-4 ml-5">
         <Input
           placeholder="Search..."
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />

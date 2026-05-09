@@ -3,7 +3,7 @@
 import { DataTable } from '@/components/ui/DataTable';
 import { createAxios } from '@/lib/axios';
 import { useUserState } from '@/store/userState';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { getAllShoes } from '../(main)/action';
 import { IShoe } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
@@ -11,25 +11,26 @@ import { formatVND } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { ArrowDownUp, ToggleLeft, ToggleRight } from 'lucide-react';
 import { UpdateIsFeaturedShoes } from './action';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function AdminDashboard() {
   const { userInfo, setUserInfo } = useUserState();
   const axiosJWT = createAxios(userInfo, setUserInfo);
 
-  const [allShoes, setAllShoes] = useState<IShoe[]>([]);
+  const {
+    data: allShoes = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['shoes'],
+    queryFn: async () => {
+      const res = await getAllShoes();
+      return res.data;
+    },
+    enabled: !!userInfo?._id,
+  });
 
-  // api get all shoes
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getAllShoes();
-        setAllShoes(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [userInfo?._id]);
+  const queryClient = useQueryClient();
 
   const columns: ColumnDef<IShoe>[] = [
     {
@@ -94,9 +95,14 @@ export default function AdminDashboard() {
             axiosJWT,
             accessToken: userInfo?.accessToken || '',
             shoeId,
-            isFeatured,
+            isFeatured: !isFeatured,
           });
-          console.log(11111, res);
+          // console.log(11111, res);
+          if (res?.success === true) {
+            queryClient.invalidateQueries({ queryKey: ['shoes'] });
+          }
+
+          // console.log(1111, res?.data?.isFeatured);
         };
 
         return (
@@ -115,9 +121,17 @@ export default function AdminDashboard() {
     },
   ];
 
+  if (isLoading) {
+    return (
+      <div className="w-full p-10 ">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full p-10 ">
-      <DataTable columns={columns} data={allShoes} />
+      <DataTable columns={columns} data={allShoes} filterKey="name" />
     </div>
   );
 }

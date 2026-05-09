@@ -5,6 +5,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Bebas_Neue } from 'next/font/google';
 import { CustomCursor } from '@/components/ui/CustomCursor';
 import { Toaster } from 'sonner';
+import Providers from './providers';
 
 export const metadata = {
   title: 'SneakerT',
@@ -31,11 +32,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${bebasNeue.variable} antialiased`}>
-        <CustomCursor />
-        <ThemeProvider>
-          <main>{children}</main>
-          <Toaster />
-        </ThemeProvider>
+        <Providers>
+          <CustomCursor />
+          <ThemeProvider>
+            <main>{children}</main>
+            <Toaster />
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
