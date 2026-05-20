@@ -24,6 +24,11 @@
   html {
     cursor: none !important;
   }
+
+  /* Thay .custom-cursor bằng class/id của thẻ div làm chuột của bạn */
+  .custom-cursor {
+    display: none !important;
+  }
 }
 
 @layer base {

@@ -32,7 +32,7 @@ export const CustomCursor = () => {
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 w-5 h-5 pointer-events-none z-[99999] rounded-full border border-black bg-white/10 backdrop-blur-[2px] shadow-sm"
+      className="custom-cursor fixed top-0 left-0 w-5 h-5 pointer-events-none z-99999 rounded-full border border-black bg-white/10 backdrop-blur-[2px] shadow-sm"
       style={{
         willChange: 'transform',
         transition: 'none',
