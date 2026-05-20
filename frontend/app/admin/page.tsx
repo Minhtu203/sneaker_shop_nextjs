@@ -330,7 +330,7 @@ export default function AdminDashboard() {
                   label="Brand"
                   options={brandOptions}
                   selectedValue={formData.brand || ''}
-                  onValueChange={(brand) => setFormData({ ...formData, brand })}
+                  onValueChange={(brand: any) => setFormData({ ...formData, brand })}
                 />
               </div>
 
@@ -352,13 +352,13 @@ export default function AdminDashboard() {
                   label="Category"
                   options={categoryOptions}
                   selectedValue={formData.category || ''}
-                  onValueChange={(category) => setFormData({ ...formData, category })}
+                  onValueChange={(category: any) => setFormData({ ...formData, category })}
                 />
                 <DropdownMenuRadioGroupDemo
                   label="Gender"
                   options={genderOptions}
                   selectedValue={formData.gender || ''}
-                  onValueChange={(gender) => setFormData({ ...formData, gender })}
+                  onValueChange={(gender: any) => setFormData({ ...formData, gender })}
                 />
               </div>
 
@@ -487,7 +487,7 @@ export default function AdminDashboard() {
 
               {/* Submit Button */}
               <div className="pt-4">
-                <ButtonV2 className="w-full hover:scale-[1.01] transition-transform py-3 text-base" type="submit">
+                <ButtonV2 className="w-full! hover:scale-[1.01] transition-transform py-3 text-base" type="submit">
                   Create Shoes Product
                 </ButtonV2>
               </div>
