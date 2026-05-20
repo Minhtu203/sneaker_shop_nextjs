@@ -72,10 +72,10 @@ export default function ForgottenPassword() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-full">
+    <div className="flex items-center justify-center h-screen w-full md:px-0 px-6">
       <form
         onSubmit={handleSubmit}
-        className="relative bg-(--light) w-1/3 rounded-4xl pt-15 pb-12 px-6 flex gap-4 flex-col"
+        className="relative bg-(--light) w-full md:w-1/3 rounded-4xl pt-15 pb-12 px-6 flex gap-4 flex-col"
       >
         <div className="absolute top-3 left-3">
           <Linkz href="/auth/login">

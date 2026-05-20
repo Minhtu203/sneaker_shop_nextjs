@@ -18,6 +18,14 @@
 
 @plugin "tailwindcss-animate";
 
+/* hide mouse when using mobile */
+@media (pointer: coarse) {
+  body,
+  html {
+    cursor: none !important;
+  }
+}
+
 @layer base {
   :root {
     --background: #f3f2f8;

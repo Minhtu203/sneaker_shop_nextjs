@@ -3,7 +3,7 @@
 import { Linkz } from '@/components/layout/Header';
 import { Button } from '@/components/ui/Button';
 import { InputField } from '@/components/ui/Inputz';
-import { ChevronLeft, ShieldQuestionMark, UserPlus, Footprints, LoaderCircle } from 'lucide-react';
+import { ChevronLeft, ShieldQuestionMark, UserPlus, LoaderCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { LoginAction } from '../actions';
 import { useRouter } from 'next/navigation';
@@ -48,10 +48,10 @@ function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-full">
+    <div className="flex items-center justify-center h-screen w-full md:px-0 px-6">
       <form
         onSubmit={(e) => handleSubmit(e)}
-        className="relative bg-(--light) w-1/3 rounded-4xl pt-15 pb-12 px-6 flex gap-4 flex-col"
+        className="relative bg-(--light) w-full md:w-1/3 rounded-4xl pt-15 pb-12 px-4 md:px-6 flex gap-4 flex-col"
       >
         <div className="absolute top-3 left-3">
           <Linkz href="/">
@@ -60,11 +60,9 @@ function LoginPage() {
             </Textz>
           </Linkz>
         </div>
-
         <div className="w-full flex justify-center items-center">
           <header className="text-(--primary-color) text-4xl flex flex-row font-bold tracking-widest">Login</header>
         </div>
-
         {/* input */}
         <InputField value={username} setValue={setUsername} inputName="Username" placeholder="Enter your username" />
         <InputField
@@ -77,8 +75,7 @@ function LoginPage() {
           inputName="Password"
           placeholder="Enter your password"
         />
-
-        <div className="flex flex-row">
+        <div className="flex md:flex-row">
           <Linkz href="/auth/forgot-password">
             <Textz className="flex flex-row gap-1">
               <ShieldQuestionMark size={18} />
@@ -92,7 +89,6 @@ function LoginPage() {
             </Textz>
           </Linkz>
         </div>
-
         {/* submit btn */}
         <Button type="submit" className="bg-(--primary-color) h-12">
           {isLoading ? (
