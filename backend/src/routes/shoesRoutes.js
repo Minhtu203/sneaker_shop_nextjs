@@ -99,4 +99,14 @@ router.get(
   shoesController.getTennisShoes,
 );
 
+//get shoes with gender
+router.get(
+  "/getShoesWithGender",
+  // middlewareController.verifyToken,
+  shoesController.getShoesWithGender,
+);
+
+// api search shoes
+router.get("/search", shoesController.searchShoes);
+
 export default router;

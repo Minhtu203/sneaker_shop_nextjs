@@ -99,3 +99,41 @@ export const deleteUserById = async ({
     return { success: false, error };
   }
 };
+
+// ORDER ADMIN
+
+// get all order
+export const getAllOrders = async ({ axiosJWT, accessToken }: { axiosJWT: AxiosInstance; accessToken: string }) => {
+  try {
+    const res = await axiosJWT.get(`/api/order/getAllOrders`, { headers: { token: `Bearer ${accessToken}` } });
+    // console.log(33333, res.data);
+
+    return res.data;
+  } catch (error) {
+    console.error('Get all orders failed.', error);
+    return { success: false, error };
+  }
+};
+
+// update order
+export const updateOrderApi = async ({
+  axiosJWT,
+  accessToken,
+  orderId,
+  data,
+}: {
+  axiosJWT: AxiosInstance;
+  accessToken: string;
+  orderId: string;
+  data: object;
+}) => {
+  try {
+    const res = await axiosJWT.post(`/api/order/update/${orderId}`, data, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+    return res.data;
+  } catch (error) {
+    console.error('Get all orders failed.', error);
+    return { success: false, error };
+  }
+};

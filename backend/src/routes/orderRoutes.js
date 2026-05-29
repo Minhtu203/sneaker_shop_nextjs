@@ -8,21 +8,28 @@ const router = Router();
 router.get(
   "/getAllOrders",
   middlewareController.verifyAdminToken,
-  orderController.getAllOrders
+  orderController.getAllOrders,
 );
 
 //create order
 router.post(
   "/createOrder",
-  middlewareController.verifyAdminToken,
-  orderController.createOrder
+  middlewareController.verifyToken,
+  orderController.createOrder,
 );
 
 //delete order
 router.post(
   "/deleteOrder",
   middlewareController.verifyAdminToken,
-  orderController.deleteOrder
+  orderController.deleteOrder,
+);
+
+// update order
+router.post(
+  "/update/:id",
+  middlewareController.verifyAdminToken,
+  orderController.updateOrder,
 );
 
 export default router;

@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 export const getIsFeaturedShoes = async () => {
   try {
     const res = await axiosInstance.get('/api/shoes/getIsFeaturedShoes?isFeatured=true');
-    return res?.data;
+    return res.data;
   } catch (error: any) {
     return error.response.message || 'Get is featured shoes failed.';
   }
@@ -43,6 +43,18 @@ export const getNikeShoes = async ({
     return error;
   }
 };
+
+// search shoes api
+export const searchShoesApi = async (keyword: string) => {
+  try {
+    const res = await axiosInstance.get(`/api/shoes/search?keyword=${keyword}`);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: 'Search shoes failed.' };
+  }
+};
+
 // get shoes by id
 export const getShoesById = async (id: string) => {
   try {
@@ -87,6 +99,7 @@ export const addToCart = async ({
     throw error.response?.message || 'Add product to cart failed.';
   }
 };
+
 //get product from cart
 export const getProductInCart = async ({ axiosJWT, accessToken }: { axiosJWT: AxiosInstance; accessToken: string }) => {
   try {
@@ -96,6 +109,7 @@ export const getProductInCart = async ({ axiosJWT, accessToken }: { axiosJWT: Ax
     throw error.response?.message || 'Get product in bag failed.';
   }
 };
+
 //remove product from cart
 export const deleteProductFromCart = async ({
   axiosJWT,
@@ -182,5 +196,37 @@ export const UnFavouriteItemAction = async ({
     return res.data;
   } catch (error: any) {
     throw error?.response?.message || 'Unfavourite product failed.';
+  }
+};
+
+// get shoes with gender
+export const getShoesWithGender = async ({ gender }: { gender: string }) => {
+  try {
+    const res = await axiosInstance.get(`/api/shoes/getShoesWithGender?gender=${gender}&gender=Unisex`);
+    return res.data;
+  } catch (error: any) {
+    console.error('Get shoes with gender failed with error: ', error);
+    return { success: false, message: 'Get shoes with gender failed.' };
+  }
+};
+
+// PAYMENT
+
+// create order
+export const createOrderApi = async ({
+  axiosJWT,
+  accessToken,
+  data,
+}: {
+  axiosJWT: AxiosInstance;
+  accessToken: string;
+  data: any;
+}) => {
+  try {
+    const res = await axiosJWT.post('/api/order/createOrder', data, { headers: { token: `Bearer ${accessToken}` } });
+    return res.data;
+  } catch (error: any) {
+    console.error('Create order failed.', error);
+    return { success: false, message: 'Create order failed.' };
   }
 };

@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    paymentCode: { type: String, required: true, unique: true },
     totalAmount: { type: Number, required: true },
     items: [
       {
@@ -16,11 +17,15 @@ const orderSchema = new mongoose.Schema(
           required: true,
         },
         name: { type: String, required: true },
-        color: { type: String, required: true },
+        color: {
+          colorName: { type: String },
+          color: { type: String }, // Lưu mã hex như #0b090a
+          img: [{ type: String }], // Mảng chứa danh sách link ảnh sản phẩm
+        },
         size: { type: String, required: true },
         quantity: { type: Number, required: true },
         price: { type: Number, require: true },
-        image: { type: String, require: true },
+        // image: { type: String, require: true },
       },
     ],
     shippingAddress: {
@@ -31,7 +36,7 @@ const orderSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["COD", "CreditCard", "BankTransfer", "Paypal"],
+      enum: ["COD", "CreditCard", "BANK_TRANSFER", "Paypal"],
       default: "COD",
     },
     isPaid: {
@@ -50,7 +55,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Order", orderSchema);

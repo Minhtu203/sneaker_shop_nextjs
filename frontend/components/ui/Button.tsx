@@ -62,7 +62,7 @@ function Button({
 const ButtonV2 = ({ className, ...props }: React.ComponentProps<'button'>) => {
   return (
     <button
-      className={`px-2 font-bold md:w-32 h-11 text-[0.9rem] bg-(--secondary-color) rounded-2xl transition-all ${className}`}
+      className={`px-2 font-bold w-full h-11 text-[0.9rem] bg-(--secondary-color) rounded-2xl transition-all ${className}`}
       {...props}
     >
       {props.children}
@@ -73,7 +73,7 @@ const ButtonV2 = ({ className, ...props }: React.ComponentProps<'button'>) => {
 const ButtonV2OutLine = ({ className, ...props }: React.ComponentProps<'button'>) => {
   return (
     <button
-      className={`${className} px-2 font-bold md:w-32 h-11 text-[0.9rem] text-(--secondary-color) hover:scale-110 transition-all bg-none border-2 border-(--secondary-color) rounded-2xl`}
+      className={`px-2 font-bold w-full h-11 text-[0.9rem] text-(--secondary-color) hover:scale-110 transition-all bg-none border-2 border-(--secondary-color) rounded-2xl ${className}`}
       {...props}
     >
       {props.children}

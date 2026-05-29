@@ -71,7 +71,14 @@ export default function Cart() {
 
   // create order
   const handleOrder = () => {
-    console.log({ totalAmount: totalPrice, items: checkout });
+    const data = { totalAmount: totalPrice, items: checkout };
+    const encodedData = encodeURIComponent(JSON.stringify(data));
+
+    // console.log(4444, checkout);
+
+    // const itemIds = checkout.map((item: any) => item.id).join(',');
+    router.push(`/shop/cart/payment?data=${encodedData}`);
+    // console.log(222, itemIds);
   };
 
   // total price checkout
@@ -156,6 +163,9 @@ export default function Cart() {
           <div className="w-full flex items-center justify-center my-8">
             <i className="w-4/5 bg-(--gray) rounded-2xl h-[0.5px]"></i>
           </div>
+
+          {/* <Textz className="text-xl font-bold">Price: {formatVND(30000)}</Textz>
+          <Textz className="text-xl font-bold">Ship: {formatVND(30000)}</Textz> */}
           <Textz className="text-xl font-bold">Total: {formatVND(totalPrice)}</Textz>
           <div className="w-full flex items-center justify-center my-8">
             <i className="w-4/5 bg-(--gray) rounded-2xl h-[0.5px]"></i>
@@ -188,6 +198,7 @@ const CardCart = ({ className, data, handleRemoveItem, setCheckout, isDeleting }
     >
       <Link href={`/shop/products/${data?.productId?._id ? data?.productId?._id : data?.productId}`}>
         <Image
+          // priority
           alt="Shoes"
           src={data?.color?.img?.[0]}
           width={100}

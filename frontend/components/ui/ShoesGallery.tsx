@@ -22,8 +22,8 @@ export function ShoeGallery({ images }: ShoeGalleryProps) {
               <Image
                 src={isValidImageSrc(url) ? url : logo}
                 alt={`Shoe image ${index + 1}`}
-                width={500}
-                height={500}
+                width={1000}
+                height={1000}
                 className="object-cover transition-transform duration-300 rounded-2xl"
                 priority={index === 0}
               />

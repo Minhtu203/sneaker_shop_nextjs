@@ -15,6 +15,7 @@ interface InputFieldProps extends React.ComponentPropsWithoutRef<'input'> {
   password?: boolean; // true with password input
   togglePassword?: boolean; // toggle eye in password input
   setTogglePassword?: (val: boolean) => void;
+  secondColorDelete?: boolean;
 }
 
 export function InputField({
@@ -27,6 +28,7 @@ export function InputField({
   password,
   togglePassword,
   setTogglePassword,
+  secondColorDelete = false,
   ...props
 }: InputFieldProps) {
   return (
@@ -48,7 +50,7 @@ export function InputField({
         />
         {value && !password && (
           <Delete
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-(--primary-color) hover:text-(--secondary-color)"
+            className={`absolute right-2 top-1/2 -translate-y-1/2 ${secondColorDelete ? 'text-(--secondary-color)' : 'text-(--primary-color)'} hover:text-(--secondary-color)`}
             size={18}
             onClick={() => setValue?.('')}
           />

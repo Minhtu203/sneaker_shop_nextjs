@@ -66,8 +66,10 @@ export default function Home() {
             $143.99 <span className="text-gray-400 line-through">$163.99</span>
           </h2>
           <div className="flex flex-row gap-4">
-            <ButtonV2 onClick={() => console.log(11111)}>Add to Cart</ButtonV2>
-            <ButtonV2OutLine>View Details</ButtonV2OutLine>
+            <ButtonV2 className="w-32! hover:scale-110" onClick={() => console.log(11111)}>
+              Add to Cart
+            </ButtonV2>
+            <ButtonV2OutLine className="w-32!">View Details</ButtonV2OutLine>
           </div>
         </div>
 
@@ -77,7 +79,7 @@ export default function Home() {
       </div>
 
       {/* list shoes */}
-      <div className="w-full flex flex-col md:grid md:grid-cols-3 gap-4">
+      <div className="w-full flex flex-col md:grid md:grid-cols-3 gap-4 mt-4">
         {allShoes?.slice(0, 90).map((shoe: any) => (
           <CardShoes key={shoe?._id} shoeData={shoe} />
         ))}

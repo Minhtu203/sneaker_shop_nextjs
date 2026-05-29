@@ -269,4 +269,54 @@ export const shoesController = {
         .json({ success: false, message: "Internal server error" });
     }
   },
+
+  // get shoes with gender
+  getShoesWithGender: async (req, res) => {
+    try {
+      const { isFeatured, gender } = req.query;
+      const query = {};
+      if (isFeatured === "true") query.isFeatured = true;
+      if (gender) query.gender = gender;
+
+      const filterShoes = await Shoes.find(query);
+      if (filterShoes.length === 0) {
+        return res
+          .status(404)
+          .json({ success: true, message: "No product found!" });
+      }
+
+      return res.status(200).json({ success: true, data: filterShoes });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error." });
+    }
+  },
+
+  // search shoes
+  searchShoes: async (req, res) => {
+    try {
+      const keyword = req.query.keyword?.toLowerCase();
+      if (!keyword) {
+        const allShoes = Shoes.find({});
+        return res.status(200).json({
+          success: true,
+          data: allShoes,
+        });
+      }
+      const filteredShoes = await Shoes.find({
+        name: {
+          $regex: keyword,
+          $options: "i", // không phân biệt hoa thường
+        },
+      });
+
+      res.status(200).json({ success: true, data: filteredShoes });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error." });
+    }
+  },
 };

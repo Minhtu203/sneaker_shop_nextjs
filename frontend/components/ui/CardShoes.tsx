@@ -40,11 +40,14 @@ const CardShoes = ({ shoeData, heart, heartClick, className, isLoading, ...props
     >
       <div className="relative h-90">
         <Image
+          priority
+          width={1000}
+          height={1000}
           src={finalSrc}
-          fill
+          // fill
           alt={shoeData?.name || 'Shoe image'}
-          className="object-cover rounded-2xl w-full"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="w-full h-full object-cover rounded-2xl"
+          // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {heart && (
           <button
