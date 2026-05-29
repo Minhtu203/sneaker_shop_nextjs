@@ -109,7 +109,7 @@ export default function Payment() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-screen text-gray-500 bg-gray-50">
-          <div className="animate-pulse">Đang tải trang thanh toán...</div>
+          <div className="animate-pulse">Loading payment page...</div>
         </div>
       }
     >
