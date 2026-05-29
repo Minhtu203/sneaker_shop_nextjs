@@ -190,7 +190,7 @@ export default function OrderManagement() {
           <button
             onClick={() => handleToggleIsPaid(orderId || '', isPaid)}
             className="hover:opacity-80 transition-all flex items-center gap-2"
-            title={isPaid ? 'Click để đánh dấu Chưa thanh toán' : 'Click để đánh dấu Đã thanh toán'}
+            title={isPaid ? 'Mark as Unpaid' : 'Mark as Paid'}
           >
             {isPaid ? (
               <div className="flex items-center gap-1.5">
