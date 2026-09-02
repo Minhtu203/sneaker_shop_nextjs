@@ -230,3 +230,26 @@ export const createOrderApi = async ({
     return { success: false, message: 'Create order failed.' };
   }
 };
+
+// PROFILE
+//upload avatar
+export const uploadAvatarApi = async ({
+  axiosJWT,
+  accessToken,
+  data,
+}: {
+  axiosJWT: AxiosInstance;
+  accessToken: string;
+  data: any;
+}) => {
+  try {
+    const res = await axiosJWT.post('/api/user/avatar', data, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+
+    return res;
+  } catch (error: any) {
+    console.error('Lỗi khi upload:', error);
+    throw error;
+  }
+};

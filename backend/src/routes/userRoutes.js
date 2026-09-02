@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { userController } from "../controllers/userController.js";
 import { middlewareController } from "../middleware/auth.js";
+import upload from "../config/multer.js";
 
 const router = Router();
 
@@ -8,7 +9,7 @@ const router = Router();
 router.delete(
   "/:id",
   middlewareController.verifyAdminToken,
-  userController.deleteUser
+  userController.deleteUser,
 );
 
 router.get("/getUserByid/:id", userController.getUser); // get user by id
@@ -17,14 +18,22 @@ router.get("/getUserByid/:id", userController.getUser); // get user by id
 router.get(
   "/allusers",
   middlewareController.verifyAdminToken,
-  userController.getAllUsers
+  userController.getAllUsers,
 );
 
 // update user info
 router.post(
   "/updateUserInfo",
   middlewareController.verifyToken,
-  userController.updateUser
+  userController.updateUser,
+);
+
+// upload user avatar
+router.post(
+  "/avatar",
+  middlewareController.verifyToken,
+  upload.single("avatar"),
+  userController.uploadAvatar,
 );
 
 export default router;

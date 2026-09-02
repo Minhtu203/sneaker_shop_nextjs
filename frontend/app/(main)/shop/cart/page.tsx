@@ -73,12 +73,7 @@ export default function Cart() {
   const handleOrder = () => {
     const data = { totalAmount: totalPrice, items: checkout };
     const encodedData = encodeURIComponent(JSON.stringify(data));
-
-    // console.log(4444, checkout);
-
-    // const itemIds = checkout.map((item: any) => item.id).join(',');
     router.push(`/shop/cart/payment?data=${encodedData}`);
-    // console.log(222, itemIds);
   };
 
   // total price checkout

@@ -221,7 +221,7 @@ export default function Header() {
               alt="avatar"
               width={40}
               height={40}
-              className="rounded-full w-full h-auto"
+              className="rounded-full w-10 h-10 object-cover"
               onClick={() => setToggleMenu(!toggleMenu)}
             />
           ) : (
@@ -251,17 +251,33 @@ export default function Header() {
                 </Linkz>
               )}
 
-              <Linkz href={'/shop/favourites'}>
-                <TextCustomise onClick={() => setToggleMenu(false)}>
-                  <Heart /> Favourites
-                </TextCustomise>
-              </Linkz>
+              {userInfo ? (
+                <Linkz href={'/shop/favourites'}>
+                  <TextCustomise onClick={() => setToggleMenu(false)}>
+                    <Heart /> Favourites
+                  </TextCustomise>
+                </Linkz>
+              ) : (
+                <Linkz href={'/auth/login'} onClick={() => toast.info('Please sign in to continue')}>
+                  <TextCustomise onClick={() => setToggleMenu(false)}>
+                    <Heart /> Favourites
+                  </TextCustomise>
+                </Linkz>
+              )}
 
-              <Linkz href={'/shop/orders'}>
-                <TextCustomise onClick={() => setToggleMenu(false)}>
-                  <ShoppingBag /> Your orders
-                </TextCustomise>
-              </Linkz>
+              {userInfo ? (
+                <Linkz href={'/shop/orders'}>
+                  <TextCustomise onClick={() => setToggleMenu(false)}>
+                    <ShoppingBag /> Your orders
+                  </TextCustomise>
+                </Linkz>
+              ) : (
+                <Linkz href={'/auth/login'} onClick={() => toast.info('Please sign in to continue')}>
+                  <TextCustomise onClick={() => setToggleMenu(false)}>
+                    <ShoppingBag /> Your orders
+                  </TextCustomise>
+                </Linkz>
+              )}
 
               {/* log in & log out */}
               {userInfo ? (

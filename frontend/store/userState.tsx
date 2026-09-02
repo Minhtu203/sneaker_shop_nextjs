@@ -18,7 +18,7 @@ interface UserState {
   userInfo: UserInfo | null;
   role: 'admin' | 'user' | '';
   loading: boolean;
-  setUserInfo: (data: UserInfo | null) => void;
+  setUserInfo: (data: Partial<UserInfo> | null) => void;
   clearUserInfo: () => void;
   setLoading: (status?: boolean) => void;
 }
@@ -31,10 +31,11 @@ export const useUserState = create<UserState>()(
       loading: false,
 
       setUserInfo: (data) =>
-        set({
-          userInfo: data,
-          role: data?.role,
-        }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        set((state: any) => ({
+          userInfo: state.userInfo ? { ...state.userInfo, ...data } : data,
+          role: data?.role ?? state.role,
+        })),
 
       clearUserInfo: () =>
         set({

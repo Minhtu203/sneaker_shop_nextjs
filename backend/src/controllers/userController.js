@@ -1,10 +1,12 @@
 import User from "../models/userModel.js";
 import { filterEmptyValues } from "../utils/filterEmptyValues.js";
+import cloudinary from "../config/cloudinary.js";
+import mongoose from "mongoose";
 
 export const userController = {
   deleteUser: async (req, res) => {
     try {
-      const userId = req.params.id;
+      const usId = req.params.id;
       const user = await User.findByIdAndDelete(userId);
       if (!user) {
         return res.status(404).json({
@@ -87,7 +89,7 @@ export const userController = {
         {
           new: true,
           runValidators: true,
-        }
+        },
       );
       if (!updatedUser)
         return res
@@ -107,6 +109,48 @@ export const userController = {
       return res
         .status(500)
         .json({ success: false, message: "Internal server error" });
+    }
+  },
+
+  // Upload avatar
+  uploadAvatar: async (req, res) => {
+    try {
+      const userId = req.user.id;
+
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "userId is not valid" });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ message: "No file was uploaded" });
+      }
+
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Xoá ảnh cũ trên Cloudinary (nếu có)
+      if (user.avatarPublicId) {
+        await cloudinary.uploader.destroy(user.avatarPublicId);
+      }
+
+      // Cập nhật URL và public_id mới từ Multer (Cloudinary storage)
+      user.avatar = req.file.path;
+      user.avatarPublicId = req.file.filename;
+      await user.save();
+
+      return res.status(200).json({
+        message: "Avatar updated successfully",
+        avatar: user.avatar,
+        user,
+      });
+    } catch (error) {
+      console.error("Lỗi uploadAvatar:", error);
+      return res.status(500).json({
+        message: "Server error",
+        error: error.message,
+      });
     }
   },
 };

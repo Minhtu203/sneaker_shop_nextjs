@@ -29,13 +29,12 @@ export default function Favourites() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (userInfo?.accessToken) {
+      if (userInfo) {
         const res = await getItemsFavourite({ axiosJWT, accessToken: userInfo?.accessToken || '' });
         setAllItems(res?.fav);
+      } else {
+        router.push('/');
       }
-      // else {
-      //   router.push('/');
-      // }
     };
     fetchData();
   }, [userInfo]);

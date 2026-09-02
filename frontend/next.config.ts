@@ -4,27 +4,26 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'cdn2.fptshop.com.vn',
         pathname: '**',
       },
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com', 
+        hostname: 'static.nike.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'static.nike.com', 
+        hostname: 'assets.adidas.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'assets.adidas.com', 
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.fbcdn.net', 
+        hostname: '**.fbcdn.net',
         pathname: '/**',
       },
       {
@@ -37,4 +36,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
